@@ -3,6 +3,7 @@ package site.metacoding.blogv2.domain.post;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,17 +22,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import site.metacoding.blogv2.domain.user.User;
 
-@EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 300)
     private String title;
 
     @Lob
