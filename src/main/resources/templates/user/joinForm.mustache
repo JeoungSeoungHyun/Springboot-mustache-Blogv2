@@ -6,19 +6,62 @@
     <!-- 회원가입 폼 시작 -->
     <form>
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" placeholder="Enter username" required>
+            <input id="username" type="text" class="form-control" placeholder="Enter username" maxlength="12" required>
         </div>
         <div class="mb-3">
-            <input type="password" class="form-control" placeholder="Enter password" maxlength="12" required>
+            <input id="password" type="password" class="form-control" placeholder="Enter password" maxlength="12" required>
         </div>
         <div class="mb-3">
-            <input type="email" class="form-control" placeholder="Enter email" >
+            <input id="email" type="email" class="form-control" placeholder="Enter email" maxlength="30" required>
         </div>
-        <button type="button" class="btn btn-primary">회원가입</button>
+        <div class="mb-3">
+            <input id="addr" type="text" class="form-control" placeholder="Enter addr" maxlength="300" required>
+        </div>
+        <button id="btn-join" type="button" class="btn btn-primary">회원가입</button>
     </form>
     <!-- 회원가입 폼 끝 -->
 
 </div>
 <!-- 컨테이너 끝 -->
+
+<script>
+
+    // 1. 이벤트 리스너
+    $("#btn-join").click((event)=>{
+       join();
+    })
+    // let enjoy = (a)=>{alert(a)};
+    // let enjoy = (a,b)=>{alert(a,b)};
+
+    // 2. 기능
+
+    async function join(){
+        // (1) username,password,email,addr의 dom을 찾아서 오브젝트를 만들어준다.
+        let userDto = {
+            username: $("#username").val(),
+            password: $("#password").val(),
+            email: $("#email").val(),
+            addr: $("#addr").val(),
+        }
+        // (2) JSON으로 변환한다. =>통신은 JSON 형태로 하기 때문에
+        let dtoJson = JSON.stringify(userDto);
+        // (3) FETCH 요청을 한다.
+        let response = await fetch("/api/join",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: dtoJson
+        })
+        let responseObject = await response.json();
+        // (4) 회원가입이 잘되면 알림창 띄우고 로그인페이지로 이동한다.
+        if(responseObject.code == 1){
+            alert("회원가입 완료");
+            location.href = "/loginForm";
+        } else {
+            alert("회원가입 실패");
+        }
+    }
+</script>
 
 {{> /layout/footer}}

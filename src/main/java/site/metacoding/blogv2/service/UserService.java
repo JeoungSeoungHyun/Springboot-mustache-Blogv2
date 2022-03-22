@@ -1,9 +1,11 @@
 package site.metacoding.blogv2.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blogv2.domain.user.UserRepository;
+import site.metacoding.blogv2.web.api.dto.user.JoinDto;
 
 // 스프링프레임워크
 // 웹브라우저(컨트롤러 호출) -> 컨트롤러(view/데이터 돌려줌) -> 서비스(기능관리)
@@ -14,4 +16,12 @@ import site.metacoding.blogv2.domain.user.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    @Transactional
+    public void 회원가입(JoinDto joinDto) {
+
+        // JPA 레파지토리가 User를 관리하기 때문에 dto를 다시 user로 변경해줘야한다.
+        // return 해주게 되면 insert 후 동기화가 되기 때문에 없는값이 입력되서 return된다.
+        userRepository.save(joinDto.toEntity());
+    }
 }
