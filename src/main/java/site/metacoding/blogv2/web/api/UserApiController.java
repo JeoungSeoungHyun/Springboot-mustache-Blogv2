@@ -27,7 +27,7 @@ public class UserApiController {
     private final HttpSession session;
 
     @PostMapping("/join")
-    public ResponseDto<String> join(@RequestBody JoinDto joinDto) {
+    public ResponseDto<?> join(@RequestBody JoinDto joinDto) {
 
         userService.회원가입(joinDto);
 
@@ -35,7 +35,7 @@ public class UserApiController {
     }
 
     @PostMapping("/api/login")
-    public ResponseDto<String> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+    public ResponseDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 
         User userEntity = userService.로그인(loginDto);
 
@@ -45,8 +45,8 @@ public class UserApiController {
             if (loginDto.getRemember().equals("on")) {
                 response.addHeader(
                         "Set-Cookie",
-                        "remeber=" + loginDto.getUsername() + ";path=/");
-                // "remeber=" + loginDto.getUsername() + ";path=/" +";HttpOnly=true");
+                        "remember=" + loginDto.getUsername() + ";path=/");
+                // "remember=" + loginDto.getUsername() + ";path=/" +";HttpOnly=true");
 
                 // Cookie cookie = new Cookie("remember", loginDto.getUsername());
                 // cookie.setPath("/");
@@ -60,4 +60,11 @@ public class UserApiController {
 
     }
 
+    @GetMapping("/logout")
+    public ResponseDto<?> logout() {
+
+        session.invalidate();
+
+        return new ResponseDto<>(1, "성공", null);
+    }
 }

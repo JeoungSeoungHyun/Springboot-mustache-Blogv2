@@ -33,11 +33,11 @@ public class UserController {
         return "user/loginForm";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        session.invalidate();
+    // @GetMapping("/logout")
+    // public String logout() {
+    // session.invalidate();
 
-        return "redirect:/";
-    }
+    // return "redirect:/";
+    // }
 
 }
