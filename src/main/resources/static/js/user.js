@@ -11,6 +11,11 @@
         login();
     });
 
+    // 회원정보 수정 버튼 리스너
+    $("#btn-update").click((event)=>{
+        update();
+    });
+
     
     // 2. 기능
 
@@ -84,5 +89,39 @@
         }
 
     };
+
+    // 회원정보 수정 요청 함수
+    let update = async ()=>{
+
+        let id = $("#id").val();
+
+        console.log($("#username").val());
+
+        let updateDto = {
+            password: $("#password").val(),
+            email: $("#email").val(),
+            addr: $("#addr").val()
+        }
+
+        let updateDtoJson = JSON.stringify(updateDto);
+
+        let response = await fetch("/s/api/user/" + id,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json; charset=utf-8"
+            },
+            body: updateDtoJson
+        });
+
+        let responseParse = await response.json();
+
+        if(responseParse.code == 1){
+            alert("업데이트 성공");
+             location.href=`/s/user/${id}`;
+        } else{
+            alert("업데이트 실패");
+        }
+    };
+    
 
     

@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +19,9 @@ import site.metacoding.blogv2.service.UserService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
 import site.metacoding.blogv2.web.api.dto.user.JoinDto;
 import site.metacoding.blogv2.web.api.dto.user.LoginDto;
+import site.metacoding.blogv2.web.api.dto.user.UpdateDto;
 
-// 웹이 아닌 프로그램에는 뷰가 아닌 JSON데이터를 돌려줘야 하기 때문에 ApiController가 필요
+// 웹이 아닌 프로그램에는 뷰가 아닌 JSON데이터를 돌려줘야 하기 때문에 ApiController가 필
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
@@ -26,6 +29,7 @@ public class UserApiController {
     private final UserService userService;
     private final HttpSession session;
 
+    // 회원가입 메서드
     @PostMapping("/join")
     public ResponseDto<?> join(@RequestBody JoinDto joinDto) {
 
@@ -34,6 +38,7 @@ public class UserApiController {
         return new ResponseDto<String>(1, "회원가입 성공", null);
     }
 
+    // 로그인 메서드
     @PostMapping("/api/login")
     public ResponseDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 
@@ -60,10 +65,32 @@ public class UserApiController {
 
     }
 
+    // 로그아웃 메서드
     @GetMapping("/logout")
     public ResponseDto<?> logout() {
 
         session.invalidate();
+
+        return new ResponseDto<>(1, "성공", null);
+    }
+
+    // 회원정보 수정 메서드
+    // password, email
+    @PutMapping("/s/api/user/{id}")
+    public ResponseDto<?> updateForm(@PathVariable Integer id, @RequestBody UpdateDto user) {
+
+        System.out.println("아이디 : " + id);
+        System.out.println("데이터 : " + user);
+
+        userService.회원정보수정(user, id);
+
+        return new ResponseDto<>(1, "성공", null);
+    }
+
+    // 현재 웹브라우저에서는 사용하지 않음. 추후 앱에서 요청시 사용 예정
+    @GetMapping("/s/api/user/{id}")
+    public ResponseDto<?> userInfo(@PathVariable Integer id, @RequestBody UpdateDto user) {
+        userService.회원정보수정(user, id);
 
         return new ResponseDto<>(1, "성공", null);
     }
