@@ -1,3 +1,4 @@
+    // 1. 
 
     // 이벤트 리스너
     $("#btn-join").click((event)=>{
@@ -10,6 +11,16 @@
         login();
     });
  
+
+    // 2. 기능
+
+    // 유저네임 기억 메서드(httpOnly 속성이 걸려있으면 안된다!!!!)
+    function usernameRemember(){
+        let cookieParse = document.cookie.split("=")
+        $("#username").val(cookieParse[1]);
+    }
+    usernameRemember();
+
      // 회원가입 요청 메서드
      async function join(){
          // (1) username,password,email,addr의 dom을 찾아서 오브젝트를 만들어준다.
@@ -19,10 +30,11 @@
              email: $("#email").val(),
              addr: $("#addr").val(),
          }
+
          // (2) JSON으로 변환한다. =>통신은 JSON 형태로 하기 때문에
          let dtoJson = JSON.stringify(joinDto);
          // (3) FETCH 요청을 한다.
-         let response = await fetch("/api/join",{
+         let response = await fetch("/join",{
              method: "POST",
              headers: {
                  "Content-Type": "application/json; charset=utf-8"
@@ -41,12 +53,15 @@
 
      //로그인 요청 메서드
     let login = async ()=>{
+        // 체크박스의 체크여부를 제이쿼리에서 확인하는 법
+        let checked = $("#remember").prop("checked");
         // 1. 오브젝트로 만들기
         let loginDto = {
             username: $("#username").val(),
-            password: $("#password").val()
+            password: $("#password").val(),
+            remember: checked ? "on" : "off" // 삼항 연산자 사용
         }
-        
+
         // 2. json으로 파싱
         let dtoJson = JSON.stringify(loginDto);
         
@@ -61,12 +76,12 @@
 
         let responseObject = await response.json();
 
-
         if(responseObject.code == 1){
             alert("로그인 성공")
-            location.href="/";
+           location.href="/";
         } else{
             alert("로그인 실패")
         }
 
     };
+

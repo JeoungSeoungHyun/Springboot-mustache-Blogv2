@@ -1,10 +1,15 @@
 package site.metacoding.blogv2.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blogv2.service.UserService;
+import site.metacoding.blogv2.web.api.dto.ResponseDto;
 
 // 부가 로직(유효성 검사 같은)
 @RequiredArgsConstructor
@@ -21,7 +26,9 @@ public class UserController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm() {
+    public String loginForm(HttpServletRequest request, Model model) {
+
         return "user/loginForm";
     }
+
 }
