@@ -1,27 +1,28 @@
-    // 1. 
+    // 1. 리스너
 
-    // 이벤트 리스너
+    // 회원가입 버튼 리스너
     $("#btn-join").click((event)=>{
         join();
      })
 
 
-    // 버튼에 리스너 달아주기
+    // 로그인 버튼 리스너
     $("#btn-login").click((event)=>{
         login();
     });
- 
+
+
 
     // 2. 기능
 
-    // 유저네임 기억 메서드(httpOnly 속성이 걸려있으면 안된다!!!!)
+    // 유저네임 기억 함수(httpOnly 속성이 걸려있으면 안된다!!!!)
     function usernameRemember(){
         let cookieParse = document.cookie.split("=")
         $("#username").val(cookieParse[1]);
     }
     usernameRemember();
 
-     // 회원가입 요청 메서드
+     // 회원가입 요청 함수
      async function join(){
          // (1) username,password,email,addr의 dom을 찾아서 오브젝트를 만들어준다.
          let joinDto = {
@@ -51,7 +52,7 @@
          }
      }
 
-     //로그인 요청 메서드
+     //로그인 요청 함수
     let login = async ()=>{
         // 체크박스의 체크여부를 제이쿼리에서 확인하는 법
         let checked = $("#remember").prop("checked");
@@ -84,4 +85,3 @@
         }
 
     };
-

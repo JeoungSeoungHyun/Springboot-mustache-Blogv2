@@ -25,14 +25,29 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
-
+        <!-- 로그인시 네비게이션 시작 -->
+        {{#principal}}
         <li class="nav-item">
-          <a class="nav-link" href="/loginForm">로그인</a>
+          <a class="nav-link text-light" href="/s/post/writeForm">글쓰기</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/joinForm">회원가입</a>
+          <a class="nav-link text-light" href="/s/user/{{id}}">회원정보</a>
         </li>
-
+        <li class="nav-item">
+          <a id="btn-logout" class="nav-link text-light" href="/logout">로그아웃</a>
+        </li>
+        {{/principal}}
+        <!-- 로그인시 네비게이션 끝 -->
+        <!-- 비로그인시 네비게이션 시작 -->
+        {{^principal}}
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/loginForm">로그인</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/joinForm">회원가입</a>
+        </li>
+        {{/principal}}
+        <!-- 비로그인시 네비게이션 끝 -->
       </ul>
     </div>
   </div>

@@ -2,6 +2,7 @@ package site.metacoding.blogv2.web;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import site.metacoding.blogv2.web.api.dto.ResponseDto;
 public class UserController {
 
     private final UserService userService;
+    private final HttpSession session;
 
     // 웹브라우저 -> 회원가입 페이지 주세요!!
     // 앱 -> 회원가입 페이지 주세요!! 말이 안됨!!
@@ -29,6 +31,13 @@ public class UserController {
     public String loginForm(HttpServletRequest request, Model model) {
 
         return "user/loginForm";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 }
