@@ -1,5 +1,7 @@
 package site.metacoding.blogv2.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +34,20 @@ public class UserService {
 
         // SELECT만 하면되기 때문에 따로 Entity로 변환하는 메서드가 필요하지 않다.
         return userRepository.mLogin(loginDto.getUsername(), loginDto.getPassword());
+    }
+
+    public User 회원정보(Integer id) {
+
+        // 핸들러에서 예외처리를 해주기 때문에 Optional 처리를 하지 않아도 된다.
+        // return userRepository.findById(id).get();
+
+        Optional<User> userOp = userRepository.findById(id);
+
+        if (userOp.isPresent()) {
+            return userOp.get();
+        } else {
+            throw new RuntimeException("아이디를 찾을 수 없습니다");
+        }
+
     }
 }
