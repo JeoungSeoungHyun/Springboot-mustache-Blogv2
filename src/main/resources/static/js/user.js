@@ -22,7 +22,10 @@
     // 유저네임 기억 함수(httpOnly 속성이 걸려있으면 안된다!!!!)
     function usernameRemember(){
         let cookieParse = document.cookie.split("=")
-        $("#username").val(cookieParse[1]);
+        if(cookieParse[0] == remember){
+
+            $("#username").val(cookieParse[1]);
+        }
     }
     usernameRemember();
 
