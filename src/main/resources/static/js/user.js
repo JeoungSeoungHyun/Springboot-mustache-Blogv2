@@ -22,12 +22,16 @@
     // 유저네임 기억 함수(httpOnly 속성이 걸려있으면 안된다!!!!)
     function usernameRemember(){
         let cookieParse = document.cookie.split("=")
-        if(cookieParse[0] == remember){
-
+        if(cookieParse[0] == "remember"){
             $("#username").val(cookieParse[1]);
         }
     }
-    usernameRemember();
+
+    if($("#remember").prop("cheked") == true){
+        usernameRemember();
+    }
+    
+    
 
      // 회원가입 요청 함수
      async function join(){
