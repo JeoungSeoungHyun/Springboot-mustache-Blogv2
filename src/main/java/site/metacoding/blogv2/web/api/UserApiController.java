@@ -44,6 +44,8 @@ public class UserApiController {
 
         User userEntity = userService.로그인(loginDto);
 
+        System.out.println("스프링 로그인dto : " + loginDto);
+
         if (userEntity != null) {
             // 쿠키 로직
             session.setAttribute("principal", userEntity);
