@@ -26,7 +26,7 @@
             $("#username").val(cookieParse[1]);
         }
     }
-
+    // 체크박스 활성화하여 로그인페이지에서만 함수 동작하도록 변경
     if($("#remember").prop("cheked") == true){
         usernameRemember();
     }

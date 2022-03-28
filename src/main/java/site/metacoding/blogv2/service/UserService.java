@@ -55,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public void 회원정보수정(UpdateDto user, Integer id) {
+    public User 회원정보수정(UpdateDto user, Integer id) {
 
         // UPDATE user SET password = ?, email = ? WHERE id = ?
 
@@ -67,6 +67,8 @@ public class UserService {
             userEntity.setPassword(user.getPassword());
             userEntity.setEmail(user.getEmail());
             userEntity.setAddr(user.getAddr());
+
+            return userEntity;
 
         } else {
             throw new RuntimeException("아이디를 찾을 수 없습니다");
