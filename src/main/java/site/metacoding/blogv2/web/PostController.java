@@ -16,4 +16,11 @@ public class PostController {
     public String home() {
         return "post/list";
     }
+
+    // 페이지 요청
+    // /s 붙었으니까 인터셉터가 인증 처리를 한다.
+    @GetMapping("/s/post/writeForm")
+    public String writeForm() {
+        return "post/writeForm";
+    }
 }

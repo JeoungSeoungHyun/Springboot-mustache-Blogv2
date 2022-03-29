@@ -1,8 +1,10 @@
 package site.metacoding.blogv2.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.blogv2.domain.post.Post;
 import site.metacoding.blogv2.domain.post.PostRepository;
 
 @RequiredArgsConstructor
@@ -10,4 +12,10 @@ import site.metacoding.blogv2.domain.post.PostRepository;
 public class PostService {
 
     private final PostRepository postRepository;
+
+    // DB에 insert한 Post를 다시 리턴 받음.
+    @Transactional
+    public void 글쓰기(Post post) {
+        postRepository.save(post);
+    }
 }

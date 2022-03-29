@@ -15,6 +15,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -49,7 +51,7 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    @ColumnDefault("0")
+    // @ColumnDefault("0")
     @Column(nullable = false)
     private Integer pageCount;
 
@@ -60,6 +62,7 @@ public class Post {
     // 역방향 매핑
     // 컬럼을 만들지 않는다. => mappedBy
     // 기본전략 LAZY
+    @JsonIgnoreProperties({ "post" }) // messageConverter에게 알려주는 어노테이션
     @OneToMany(mappedBy = "post") // 연관관계 주인의 변수명을 넣어준다.
     private List<Comment> comments;
 
