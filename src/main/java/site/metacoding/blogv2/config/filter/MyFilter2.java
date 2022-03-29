@@ -41,7 +41,7 @@ public class MyFilter2 implements Filter {
                 System.out.println("파싱 잘됩니다.");
                 System.out.println("로그인 디티오 : " + loginDto);
 
-            } else if (contentType.equals("application/json")) {
+            } else if (contentType.equals("application/json; charset=utf-8")) {
 
                 BufferedReader br = request.getReader();
 

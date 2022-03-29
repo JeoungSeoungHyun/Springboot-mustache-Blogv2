@@ -1,9 +1,7 @@
-package site.metacoding.blogv2.domain.post;
+package site.metacoding.blogv2.domain.comment;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -11,61 +9,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import site.metacoding.blogv2.domain.comment.Comment;
+import site.metacoding.blogv2.domain.post.Post;
 import site.metacoding.blogv2.domain.user.User;
-
-/**
- * GET /post/1 상세보기
- * User, Post, List<Comment>
- */
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Post {
+public class Comment { // Post 1 - Comment N , Comment 1 - Post 1
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 300)
-    private String title;
-
-    @Lob
-    @Column(nullable = false)
     private String content;
 
-    @ColumnDefault("0")
-    @Column(nullable = false)
-    private Integer pageCount;
+    @JoinColumn(name = "postId")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Post post;
 
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
-
-    // 역방향 매핑
-    // 컬럼을 만들지 않는다. => mappedBy
-    // 기본전략 LAZY
-    @OneToMany(mappedBy = "post") // 연관관계 주인의 변수명을 넣어준다.
-    private List<Comment> comments;
+    private User user; // JPA에서 사용하기 때문에 이렇게 사용 그렇지 않는 경우 그냥 Integer userId;라고 사용함
 
     @CreatedDate
     private LocalDateTime createDate;
-
-    @LastModifiedDate
-    private LocalDateTime updateDate;
 }
