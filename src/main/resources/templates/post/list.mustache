@@ -4,22 +4,94 @@
 <div class="container mt-3">
 
     <!-- 게시글 아이템 시작 -->
-    <div class="card mb-3">
-        <div class="card-body">
-            <h4 class="card-title">제목</h4>
-            <a href="/post/1" class="btn btn-secondary">상세보기</a>
-        </div>
+    <div  id="post-box">
     </div>
     <!-- 게시글 아이템 끝 -->
 
     <ul class="pagination justify-content-center">
 
-        <li class="page-item"><a class="page-link" href="?page=1">이전</a></li>
-        <li class="page-item"><a class="page-link" href="?page=1">다음</a></li>
+        <li id="prev" class="page-item disabled" ><a id="btn-prev" class="page-link" href="javascript:;" >이전</a></li>
+        <li id="next" class="page-item"><a id="btn-next" class="page-link" href="javascript:void(0)">다음</a></li>
 
     </ul>
 
 </div>
 <!-- 컨테이너 끝 -->
+
+<script>
+    let page = 0;
+    let pageSize = 0;
+
+    let pageCheck = ()=>{
+        console.log("페이지 : " + page );
+        console.log("총페이지 : " + (pageSize-1) );
+        if(page <= 0){
+            $("#prev").addClass("disabled");
+            $("#next").removeClass("disabled");
+        } else if(page >= (pageSize-1)){
+            $("#next").addClass("disabled");
+            $("#prev").removeClass("disabled");
+        }
+    }
+  
+
+    $("#btn-prev").click(()=>{
+        if(page > 0){
+            page--;
+            pageCheck();
+            $("#post-box").empty();
+            loading();
+        }
+    }       
+    );
+    
+    $("#btn-next").click(()=>{
+        if(page < pageSize-1){
+            page++;
+            pageCheck();
+            $("#post-box").empty();
+            loading();
+        }
+    }       
+    );
+
+    let postItemRender = (post)=>{
+
+        return `<div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">${post.title}</h4>
+                <a href="/post/${post.id}" class="btn btn-secondary">상세보기</a>
+            </div>
+        </div>`;
+    };
+
+    let loading = async ()=>{
+
+        
+        let response = await fetch(`/api/post?page=${page}`);
+        
+        let responeseParse = await response.json();
+        
+        if(responeseParse.code == 1){
+            //console.log(responeseParse.data);
+            //for(dom of responeseParse.data){
+
+            pageSize = responeseParse.data.totalPages;
+
+            responeseParse.data.content.forEach((post)=>{
+               // console.log(post);
+                $("#post-box").append(postItemRender(post));
+            });
+            
+        } else {
+            alert("잘못된 요청입니다.");
+        }
+
+        
+        
+    };
+
+    loading();
+</script>
 
 {{> /layout/footer}}

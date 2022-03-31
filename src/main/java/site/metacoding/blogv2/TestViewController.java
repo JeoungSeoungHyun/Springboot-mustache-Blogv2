@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TestViewController {
 
-    @GetMapping("/post/list")
-    public String list() {
-        return "post/list";
-    }
+    // @GetMapping("/post/list")
+    // public String list() {
+    // return "post/list";
+    // }
 
     @GetMapping("/post/detail")
     public String detail() {

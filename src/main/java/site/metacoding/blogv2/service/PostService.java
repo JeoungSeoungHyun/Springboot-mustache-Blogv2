@@ -1,5 +1,9 @@
 package site.metacoding.blogv2.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,5 +21,12 @@ public class PostService {
     @Transactional
     public void 글쓰기(Post post) {
         postRepository.save(post);
+    }
+
+    public Page<Post> 글목록(Integer page) {
+
+        PageRequest pq = PageRequest.of(page, 3, Sort.by(Direction.DESC, "id"));
+
+        return postRepository.findAll(pq);
     }
 }
