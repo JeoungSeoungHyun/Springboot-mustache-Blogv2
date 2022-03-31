@@ -96,9 +96,10 @@ public class UserApiController {
 
     // 현재 웹브라우저에서는 사용하지 않음. 추후 앱에서 요청시 사용 예정
     @GetMapping("/s/api/user/{id}")
-    public ResponseDto<?> userInfo(@PathVariable Integer id, @RequestBody UpdateDto user) {
-        userService.회원정보수정(user, id);
+    public ResponseDto<?> userInfo(@PathVariable Integer id) {
 
-        return new ResponseDto<>(1, "성공", null);
+        User userEntity = userService.회원정보(id);
+
+        return new ResponseDto<>(1, "성공", userEntity);
     }
 }

@@ -43,11 +43,11 @@ public class UserController {
     // 앱은 페이지 요청 불필요
     // 웹은 페이지 요청 필요
     @GetMapping("/s/user/{id}")
-    public String userInfo(@PathVariable Integer id, Model model) {
+    public String userInfo(@PathVariable Integer id /* , Model model */) {
 
-        User userEntity = userService.회원정보(id);
+        // User userEntity = userService.회원정보(id);
 
-        model.addAttribute("user", userEntity);
+        // model.addAttribute("user", userEntity);
 
         return "user/updateForm";
     }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blogv2.domain.post.Post;
+import site.metacoding.blogv2.domain.post.PostRepository;
 import site.metacoding.blogv2.domain.user.User;
 import site.metacoding.blogv2.service.PostService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
@@ -34,4 +35,5 @@ public class PostApiController {
 
         return new ResponseDto<>(1, "성공", null);
     }
+
 }
