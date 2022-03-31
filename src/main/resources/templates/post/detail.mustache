@@ -2,23 +2,31 @@
 
 <!-- 컨테이너 시작 -->
 <div class="container mt-3">
+    {{#post}}
+    <input id="id" type="hidden" value="{{post.id}}">
     <!-- 상세정보보기 시작 -->
-    <div class="mb-3">
-        작성자 : 유저네임
+    <div id="detail-box">
+        <div class="mb-3">
+            작성자 : {{post.user.username}}
+        </div>
+        <div class="mb-3 mt-3">
+            {{post.title}}
+        </div>
+        <hr />
+        <div class="mb-3">
+           {{post.content}}
+        </div>
     </div>
-    <div class="mb-3 mt-3">
-        제목
-    </div>
-    <hr />
-    <div class="mb-3">
-        내용
-    </div>
+    {{/post}}
 
-    <a href="/s/post/1/updateForm" class="btn btn-secondary">수정</a>
+    {{#put}}
+    <a href="/s/post/{{post.id}}/updateForm" class="btn btn-secondary">수정</a>
     <button class="btn btn-danger">삭제</button>
+    {{/put}}
 
     <!-- 상세정보보기 끝 -->
 </div>
 <!-- 컨테이너 끝 -->
+
 
 {{> /layout/footer}}

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,4 +48,19 @@ public class PostApiController {
 
         return new ResponseDto<>(1, "성공", list);
     }
+
+    @GetMapping("/api/post/{id}")
+    public ResponseDto<?> detail(@PathVariable Integer id) {
+
+        Post postEntity = postService.글상세보기(id);
+
+        if (postEntity != null) {
+            return new ResponseDto<>(1, "성공", postEntity);
+
+        } else {
+            return new ResponseDto<>(-1, "실패", null);
+        }
+
+    }
+
 }
