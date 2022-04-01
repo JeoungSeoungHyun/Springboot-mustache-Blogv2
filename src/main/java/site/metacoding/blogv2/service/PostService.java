@@ -40,4 +40,8 @@ public class PostService {
             return null;
         }
     }
+
+    public void 글삭제(Integer id) {
+        postRepository.deleteById(id);
+    }
 }

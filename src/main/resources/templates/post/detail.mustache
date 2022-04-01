@@ -18,7 +18,7 @@
 
     <div style="display: none;" id="auth-box">
     <a  href="/s/post/{{postId}}/updateForm" class="btn btn-secondary">수정</a>
-    <button class="btn btn-danger">삭제</button>
+    <button id="btn-delete" class="btn btn-danger">삭제</button>
 
     </div>   
     <!-- 상세정보보기 끝 -->
@@ -26,6 +26,29 @@
 <!-- 컨테이너 끝 -->
 
 <script>
+    let id = $("#id").val();
+
+    $("#btn-delete").click(()=>{
+        deletePost();
+    });
+
+    let deletePost = async () => {
+
+        let response = await fetch(`/s/api/post/${id}`,{
+            method: "DELETE"
+        });
+
+        let responeseParse = await response.json();
+
+        if(responeseParse.code == 1){
+            alert("삭제성공");
+            location.href="/";
+        } else {
+            alert("삭제실패");
+        }
+
+
+    };
 
     let userInfoRender = (data)=>{
 
@@ -44,8 +67,6 @@
     };
 
     let loading = async()=>{
-
-        let id = $("#id").val();
 
         let response = await fetch(`/api/post/${id}`);
 

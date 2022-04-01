@@ -3,6 +3,7 @@ package site.metacoding.blogv2.web.api;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,4 +79,18 @@ public class PostApiController {
 
     }
 
+    @DeleteMapping("/s/api/post/{id}")
+    public ResponseDto<?> delete(@PathVariable Integer id) {
+
+        // 권한처리
+        User principal = (User) session.getAttribute("principal");
+        Post postEntity = postService.글상세보기(id);
+        if (principal.getId() == postEntity.getUser().getId()) {
+            postService.글삭제(id);
+            return new ResponseDto<>(1, "성공", null);
+        } else {
+            return new ResponseDto<>(-1, "권한이 없습니다.", null);
+        }
+
+    }
 }
