@@ -65,7 +65,7 @@ public class Post {
     // 컬럼을 만들지 않는다. => mappedBy
     // 기본전략 LAZY
     @JsonIgnoreProperties({ "post" }) // messageConverter에게 알려주는 어노테이션
-    @OneToMany(mappedBy = "post") // 연관관계 주인의 변수명을 넣어준다.
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE) // 연관관계 주인의 변수명을 넣어준다.
     private List<Comment> comments;
 
     @CreatedDate
