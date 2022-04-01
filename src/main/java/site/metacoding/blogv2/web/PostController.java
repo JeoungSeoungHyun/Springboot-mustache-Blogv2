@@ -34,21 +34,7 @@ public class PostController {
     @GetMapping("/post/{id}")
     public String detail(@PathVariable Integer id, Model model) {
 
-        Post postEntity = postService.글상세보기(id);
-
-        User principal = (User) session.getAttribute("principal");
-
-        if (postEntity != null)
-
-            // 인증확인
-            if (principal != null) {
-                // 권한확인
-                if (principal.getId() == postEntity.getUser().getId()) {
-                    model.addAttribute("put", true);
-                }
-            }
-
-        model.addAttribute("post", postEntity);
+        model.addAttribute("postId", id);
         return "post/detail";
     }
 }

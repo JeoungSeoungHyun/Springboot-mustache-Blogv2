@@ -15,6 +15,7 @@ import site.metacoding.blogv2.domain.post.Post;
 import site.metacoding.blogv2.domain.user.User;
 import site.metacoding.blogv2.service.PostService;
 import site.metacoding.blogv2.web.api.dto.ResponseDto;
+import site.metacoding.blogv2.web.api.dto.post.DetailResponseDto;
 import site.metacoding.blogv2.web.api.dto.post.WriteDto;
 
 @RequiredArgsConstructor
@@ -52,14 +53,28 @@ public class PostApiController {
     @GetMapping("/api/post/{id}")
     public ResponseDto<?> detail(@PathVariable Integer id) {
 
+        boolean auth;
+
         Post postEntity = postService.글상세보기(id);
 
-        if (postEntity != null) {
-            return new ResponseDto<>(1, "성공", postEntity);
+        // 인증 확인
+        User principal = (User) session.getAttribute("principal");
 
+        System.out.println("세션 : " + principal);
+        if (principal != null) {
+            // 권한 확인
+            System.out.println("작성자아이디 : " + postEntity.getUser().getId());
+            if (principal.getId() == postEntity.getUser().getId()) {
+                auth = true;
+            } else {
+                auth = false;
+            }
         } else {
-            return new ResponseDto<>(-1, "실패", null);
+            auth = false;
         }
+        DetailResponseDto detailResponseDto = new DetailResponseDto(postEntity, auth);
+
+        return new ResponseDto<>(1, "성공", detailResponseDto);
 
     }
 
