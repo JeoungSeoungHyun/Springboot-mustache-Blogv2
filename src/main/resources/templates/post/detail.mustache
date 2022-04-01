@@ -22,50 +22,47 @@
 
     </div>   
     <!-- 상세정보보기 끝 -->
+
+    <!-- 댓글 시작 -->
+    <div class="card">
+        <form action="/s/post/{{postId}}/comment" method="post">
+            <div class="card-body">
+                <textarea name="content" class="form-control" rows="1"></textarea>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">등록</button>
+            </div>
+        </form>
+    </div>
+    <br />
+
+    <div class="card">
+        <div class="card-header"><b>댓글 리스트</b></div>
+        <ul id="reply-box" class="list-group">
+
+            {{#comments}}
+            <li  class="list-group-item d-flex justify-content-between">
+                <div>{{content}}</div>
+                <div class="d-flex">
+                    <div class="font-italic">작성자 : {{user.username}} &nbsp;</div>
+                    <button class="badge bg-primary">삭제</button>
+                </div>
+            </li>
+            {{/comments}}
+        </ul>
+    </div>
+    <br />
+    <!-- 댓글 끝 -->
+
 </div>
 <!-- 컨테이너 끝 -->
 
+<script src="/js/post.js"></script>
+
 <script>
+
     let id = $("#id").val();
-
-    $("#btn-delete").click(()=>{
-        deletePost();
-    });
-
-    let deletePost = async () => {
-
-        let response = await fetch(`/s/api/post/${id}`,{
-            method: "DELETE"
-        });
-
-        let responeseParse = await response.json();
-
-        if(responeseParse.code == 1){
-            alert("삭제성공");
-            location.href="/";
-        } else {
-            alert("삭제실패");
-        }
-
-
-    };
-
-    let userInfoRender = (data)=>{
-
-        let username = data.post.user.username;
-        let title = data.post.title;
-        let content =  data.post.content;
-        let auth = data.auth;
-
-        $("#username").text(username);
-        $("#title").text(title);
-        $("#content").html(content); //mustache에서 중괄호 3개인것처럼
-
-        if(auth){
-            $("#auth-box").css("display","block");
-        }
-    };
-
+   
     let loading = async()=>{
 
         let response = await fetch(`/api/post/${id}`);
@@ -75,7 +72,7 @@
         console.log(responeseParse);
 
         if(responeseParse.code == 1){
-            userInfoRender(responeseParse.data);
+            postInfoRender(responeseParse.data);
             
         } else {
           alert("잘못된 요청입니다.");

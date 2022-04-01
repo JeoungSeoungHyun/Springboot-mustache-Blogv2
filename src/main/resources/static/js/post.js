@@ -5,6 +5,11 @@ $("#btn-write").click((event)=>{
     write();
 });
 
+// 글삭제 버튼 리스너
+$("#btn-delete").click(()=>{
+    deletePost();
+});
+
 // 2. 기능
 
 // 글쓰기 함수
@@ -33,3 +38,40 @@ let write = async ()=>{
         alert("글쓰기 실패");
     }
 };
+
+// 글삭제 함수
+let deletePost = async () => {
+
+    let response = await fetch(`/s/api/post/${id}`,{
+        method: "DELETE"
+    });
+
+    let responeseParse = await response.json();
+
+    if(responeseParse.code == 1){
+        alert("삭제성공");
+        location.href="/";
+    } else {
+        alert("삭제실패");
+    }
+
+
+};
+
+// 글 수정,삭제 권한 확인 함수
+let postInfoRender = (data)=>{
+
+    let username = data.post.user.username;
+    let title = data.post.title;
+    let content =  data.post.content;
+    let auth = data.auth;
+
+    $("#username").text(username);
+    $("#title").text(title);
+    $("#content").html(content); //mustache에서 중괄호 3개인것처럼
+
+    if(auth){
+        $("#auth-box").css("display","block");
+    }
+};
+
